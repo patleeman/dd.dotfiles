@@ -31,7 +31,20 @@ sudo apt-get install -y -qq \
     unzip \
     make \
     build-essential \
+    wget \
     2>&1 | tail -1
+
+# --- GitHub CLI (gh) ---
+log_section "GitHub CLI"
+if ! command -v gh &>/dev/null; then
+    log "Installing gh..."
+    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
+    sudo apt-get update -qq
+    sudo apt-get install -y -qq gh 2>&1 | tail -1
+else
+    log "gh already installed: $(gh --version | head -1)"
+fi
 
 # --- Neovim (latest stable via GitHub release) ---
 log_section "Neovim"
