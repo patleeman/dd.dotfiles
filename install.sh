@@ -95,6 +95,15 @@ else
     log "agent-browser already installed: $(agent-browser --version 2>/dev/null || echo 'ok')"
 fi
 
+# --- pi-deck ---
+log_section "pi-deck"
+if ! command -v pi-deck &>/dev/null; then
+    log "Installing pi-deck..."
+    npm install -g pi-deck
+else
+    log "pi-deck already installed"
+fi
+
 # --- Symlink dotfiles using stow ---
 log_section "Symlinking dotfiles"
 cd "$DOTFILES_DIR"
