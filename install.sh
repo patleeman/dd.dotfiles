@@ -85,6 +85,16 @@ else
     log "lazygit already installed"
 fi
 
+# --- agent-browser ---
+log_section "agent-browser"
+if ! command -v agent-browser &>/dev/null; then
+    log "Installing agent-browser..."
+    npm install -g agent-browser
+    npx playwright install --with-deps chromium 2>&1 | tail -1
+else
+    log "agent-browser already installed: $(agent-browser --version 2>/dev/null || echo 'ok')"
+fi
+
 # --- Symlink dotfiles using stow ---
 log_section "Symlinking dotfiles"
 cd "$DOTFILES_DIR"
