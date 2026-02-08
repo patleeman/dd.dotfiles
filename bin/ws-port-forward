@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Forward a port from this workspace to be accessible via SSH tunnel
+# Usage: ws-port-forward <port> [local_port]
+#
+# After running this, on your laptop:
+#   ssh -L <port>:localhost:<port> workspace-<name>
+#
+# This script just prints the instructions since forwarding
+# is configured from the laptop side.
+
+PORT="${1:?Usage: ws-port-forward <port> [local_port]}"
+LOCAL_PORT="${2:-$PORT}"
+
+echo "To access port $PORT from this workspace on your laptop:"
+echo ""
+echo "  Option 1 (VSCode/Cursor): Ports are auto-forwarded"
+echo ""
+echo "  Option 2 (SSH): Run from your laptop:"
+echo "    ssh -L $LOCAL_PORT:localhost:$PORT workspace-\$(hostname)"
+echo ""
+echo "  Option 3 (Persistent): Add to ~/.ssh/workspaces/\$(hostname).config:"
+echo "    LocalForward $LOCAL_PORT localhost:$PORT"

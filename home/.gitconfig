@@ -1,0 +1,34 @@
+[user]
+	email = patrickc.lee@datadoghq.com
+	name = Patrick Lee
+[core]
+	fsmonitor = false
+	untrackedCache = true
+[feature]
+	manyFiles = true
+[column]
+	ui = auto
+[color]
+	ui = auto
+[rerere]
+	enabled = true
+[fetch]
+	prune = true
+	writeCommitGraph = true
+[push]
+	autoSetupRemote = true
+[pull]
+	ff = only
+	rebase = true
+[rebase]
+	autoStash = true
+[help]
+	autocorrect = 1
+[merge]
+	conflictstyle = diff3
+[alias]
+	prune-gone = "!git fetch --prune && git branch -vv | awk '/: gone]/{print $1}' | xargs -r git branch -D"
+	prune-merged = "!git fetch --prune && git branch --merged origin/main | egrep -v '(^\\*| main$| develop$|^  release/)' | xargs -r git branch -d"
+	recent = "!git for-each-ref --sort=-committerdate refs/heads/ --format='%(refname:short)' | head -n 15"
+	lg = log --graph --decorate --oneline --all
+	co = "!f() { b=\"$1\"; shift || true; git checkout \"$b\" \"$@\" 2>/dev/null && exit 0; git fetch origin \"$b\" --prune 2>/dev/null || exit 1; git rev-parse --verify \"$b\" >/dev/null 2>&1 && { git branch --set-upstream-to=origin/\"$b\" \"$b\" 2>/dev/null || true; exec git checkout \"$b\" \"$@\"; }; exec git checkout -b \"$b\" --track origin/\"$b\" \"$@\"; }; f"
