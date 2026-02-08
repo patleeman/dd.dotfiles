@@ -88,6 +88,13 @@ fi
 # --- Symlink dotfiles using stow ---
 log_section "Symlinking dotfiles"
 cd "$DOTFILES_DIR"
+# Remove existing files that conflict with stow (workspace may pre-create these)
+for f in $(find home -type f -not -name '.gitkeep' | sed 's|^home/||'); do
+    if [ -f "$HOME/$f" ] && [ ! -L "$HOME/$f" ]; then
+        log "Removing existing $HOME/$f to allow stow symlink"
+        rm -f "$HOME/$f"
+    fi
+done
 # stow treats each top-level dir as a "package" and symlinks its contents into $HOME
 stow -v -t "$HOME" home
 
